@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>€PROOF — Proof Use Cases</title>
+<link rel="icon" href="proof_logo.png" />
+<link rel="stylesheet" href="ai-agent.css" />
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Segoe UI', system-ui, sans-serif; background: radial-gradient(ellipse at top, #1F0F2E 0%, #0A0E27 50%, #060920 100%); color: #E0E6FF; line-height: 1.6; padding-top: 80px; padding-bottom: 60px; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+header { position: fixed; top: 0; left: 0; width: 100%; background: rgba(10,14,39,0.92); backdrop-filter: blur(12px); z-index: 100; border-bottom: 1px solid rgba(181,123,255,0.25); padding: 10px 0; }
+.header-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+.logo { display: flex; align-items: center; gap: 8px; }
+.logo img { height: 36px; width: auto; border-radius: 50%; box-shadow: 0 0 15px rgba(181,123,255,0.5); }
+.logo-text { font-size: 20px; font-weight: 700; color: #fff; }
+nav { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+nav a { color: #8A94C8; text-decoration: none; font-size: 12px; font-weight: 500; transition: 0.3s; }
+nav a:hover { color: #B57BFF; }
+nav a.active { color: #B57BFF; border-bottom: 2px solid #B57BFF; }
+.btn-primary { background: linear-gradient(135deg, #B57BFF 0%, #D4A8FF 100%); color: #fff; padding: 8px 18px; border-radius: 30px; font-weight: 700; text-decoration: none; font-size: 13px; box-shadow: 0 4px 15px rgba(181,123,255,0.4); }
+section { padding: 30px 0; }
+.section-header { text-align: center; margin-bottom: 30px; }
+.section-tag { display: inline-block; background: rgba(181,123,255,0.12); color: #B57BFF; padding: 4px 16px; border-radius: 20px; font-size: 12px; font-weight: 600; text-transform: uppercase; border: 1px solid rgba(181,123,255,0.2); }
+.section-header h1 { font-size: 36px; font-weight: 700; margin: 8px 0; }
+.section-header h1 .highlight { color: #B57BFF; }
+.section-header p { color: #8A94C8; max-width: 600px; margin: 0 auto; }
+.categories { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 24px; }
+.cat-btn { background: rgba(26,30,65,0.5); border: 1px solid rgba(181,123,255,0.2); color: #8A94C8; padding: 8px 20px; border-radius: 30px; font-size: 13px; cursor: pointer; transition: 0.3s; }
+.cat-btn.active, .cat-btn:hover { background: #B57BFF; color: #fff; border-color: #B57BFF; box-shadow: 0 0 20px rgba(181,123,255,0.4); }
+.fintech-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; margin-bottom: 30px; }
+.fintech-card { background: linear-gradient(160deg, rgba(26,30,65,0.5), rgba(31,15,46,0.5)); border: 1px solid rgba(181,123,255,0.15); border-radius: 14px; padding: 18px; transition: 0.3s; }
+.fintech-card:hover { border-color: #B57BFF; background: rgba(181,123,255,0.08); transform: translateY(-3px); }
+.fintech-card .fc-icon { font-size: 26px; filter: drop-shadow(0 0 10px rgba(181,123,255,0.6)); }
+.fintech-card .fc-title { font-size: 14px; font-weight: 600; color: #fff; margin-top: 6px; }
+.fintech-card .fc-cat { font-size: 10px; text-transform: uppercase; color: #5A649A; letter-spacing: 0.5px; margin-top: 4px; }
+.contract-box { background: rgba(181,123,255,0.05); border: 1px solid rgba(181,123,255,0.2); border-radius: 12px; padding: 14px; margin: 20px 0; text-align: center; font-size: 13px; color: #8A94C8; font-family: 'Courier New', monospace; }
+.contract-box .addr { color: #B57BFF; }
+.contract-box .copy-btn { background: transparent; border: none; color: #5A649A; cursor: pointer; font-size: 13px; }
+.contract-box .copy-btn:hover { color: #B57BFF; }
+.contract-box .solscan-link { color: #5A649A; text-decoration: none; font-size: 13px; margin-left: 8px; }
+.contract-box .solscan-link:hover { color: #fff; }
+.counter-box { text-align: center; padding: 16px; background: rgba(181,123,255,0.05); border-radius: 12px; margin: 20px 0; font-size: 14px; color: #8A94C8; font-family: 'Courier New', monospace; }
+.counter-box .counter-visitors { color: #B57BFF; font-weight: 600; }
+.counter-box .counter-clients { color: #D4A8FF; font-weight: 600; }
+.back-link { display: inline-block; margin-top: 16px; color: #B57BFF; text-decoration: none; font-weight: 500; }
+.proof-cta { background: linear-gradient(160deg, rgba(181,123,255,0.15), rgba(212,168,255,0.05)); border: 2px solid rgba(181,123,255,0.4); border-radius: 16px; padding: 22px; margin: 24px 0; text-align: center; }
+.proof-cta h3 { color: #fff; font-size: 18px; margin-bottom: 8px; }
+.proof-cta p { color: #8A94C8; font-size: 13px; margin-bottom: 14px; }
+.proof-cta a { display: inline-block; background: linear-gradient(135deg, #B57BFF, #D4A8FF); color: #fff; padding: 10px 24px; border-radius: 30px; font-weight: 700; font-size: 14px; text-decoration: none; box-shadow: 0 4px 15px rgba(181,123,255,0.4); }
+footer { background: linear-gradient(180deg, #060920, #030510); padding: 20px 0; text-align: center; border-top: 1px solid rgba(181,123,255,0.2); margin-top: 20px; }
+footer p { color: #3A406A; font-size: 13px; }
+@media (max-width: 768px) { .section-header h1 { font-size: 26px; } .fintech-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 480px) { .fintech-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <div class="container header-inner">
+    <div class="logo"><img src="proof_logo.png" alt="€PROOF" /><span class="logo-text">PROOF €PROOF</span></div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="registry.html">Registry</a>
+      <a href="fintech1.html" class="active">Use Cases</a>
+      <a href="fintech2.html">Flow</a>
+      <a href="ecosystem.html">Ecosystem</a>
+    </nav>
+    <a href="buy.html" class="btn-primary">Buy €PROOF</a>
+  </div>
+</header>
+
+<section>
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Proof</span>
+      <h1>Proof <span class="highlight">Use Cases</span></h1>
+      <p>From meme tokens to RWA — every audit gets a €PROOF certificate.</p>
+    </div>
+    <div class="categories">
+      <button class="cat-btn active" data-cat="all">All</button>
+      <button class="cat-btn" data-cat="meme">Meme Tokens</button>
+      <button class="cat-btn" data-cat="defi">DeFi</button>
+      <button class="cat-btn" data-cat="rwa">RWA</button>
+      <button class="cat-btn" data-cat="launchpad">Launchpads</button>
+      <button class="cat-btn" data-cat="nft">NFT</button>
+    </div>
+    <div class="fintech-grid" id="fintechGrid"></div>
+
+    <div class="proof-cta">
+      <h3>📜 View Registry of Proofs</h3>
+      <p>All tokens audited via €AUDT get a €PROOF certificate — view them on-chain.</p>
+      <a href="registry.html">View Registry →</a>
+    </div>
+
+    <div class="counter-box">
+      ✅ Visitors: <span class="counter-visitors">2,030</span>
+      &nbsp;·&nbsp;
+      🤝 Clients: <span class="counter-clients">0</span>
+    </div>
+    <div class="contract-box">
+      📜 Contract: <span class="addr">5rzYSSWCgiY5dUf7JG1i1fBUkNWbYA51fuzWhMYx6t6A</span>
+      <button onclick="navigator.clipboard.writeText('5rzYSSWCgiY5dUf7JG1i1fBUkNWbYA51fuzWhMYx6t6A')" class="copy-btn">📋 Copy</button>
+      <a href="https://solscan.io/token/5rzYSSWCgiY5dUf7JG1i1fBUkNWbYA51fuzWhMYx6t6A" target="_blank" class="solscan-link">🔍 Solscan</a>
+    </div>
+    <a href="index.html" class="back-link">← Back to €PROOF Home</a>
+  </div>
+</section>
+
+<footer><div class="container"><p>© 2026 AviaTrust. Built on Solana. | €PROOF</p></div></footer>
+
+<script>
+const ideas = [
+  { icon: '🐕', title: 'Meme token proof certificate', cat: 'meme' },
+  { icon: '🍯', title: 'Honeypot-proof verification', cat: 'meme' },
+  { icon: '📊', title: 'Holder distribution proof', cat: 'meme' },
+  { icon: '🔒', title: 'Mint authority proof', cat: 'meme' },
+  { icon: '❄️', title: 'Freeze authority proof', cat: 'meme' },
+  { icon: '💧', title: 'LP lock proof certificate', cat: 'defi' },
+  { icon: '🏦', title: 'Lending protocol proof', cat: 'defi' },
+  { icon: '🌊', title: 'AMM pool proof', cat: 'defi' },
+  { icon: '📈', title: 'Yield farm proof', cat: 'defi' },
+  { icon: '⚡', title: 'Flash loan protection proof', cat: 'defi' },
+  { icon: '🏢', title: 'RWA token proof', cat: 'rwa' },
+  { icon: '💎', title: 'Proof of Reserve certificate', cat: 'rwa' },
+  { icon: '📜', title: 'Compliance module proof', cat: 'rwa' },
+  { icon: '🏗️', title: 'Launchpad token proof', cat: 'launchpad' },
+  { icon: '🎯', title: 'Pre-launch verification', cat: 'launchpad' },
+  { icon: '🚀', title: 'Fair launch proof', cat: 'launchpad' },
+  { icon: '🖼️', title: 'NFT collection proof', cat: 'nft' },
+  { icon: '🎨', title: 'Metadata proof', cat: 'nft' },
+  { icon: '🔐', title: 'Royalty enforcement proof', cat: 'nft' }
+];
+
+const grid = document.getElementById('fintechGrid');
+function render(category) {
+  if (!category) category = 'all';
+  grid.innerHTML = '';
+  const filtered = category === 'all' ? ideas : ideas.filter(i => i.cat === category);
+  filtered.forEach(idea => {
+    const card = document.createElement('div');
+    card.className = 'fintech-card';
+    card.innerHTML = '<div class="fc-icon">' + idea.icon + '</div><div class="fc-title">' + idea.title + '</div><div class="fc-cat">' + idea.cat + '</div>';
+    grid.appendChild(card);
+  });
+}
+render('all');
+document.querySelectorAll('.cat-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    render(this.dataset.cat);
+  });
+});
+</script>
+<script src="counter.js"></script>
+<script src="ai-agent.js"></script>
+</body>
+</html>
