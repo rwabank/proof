@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>€PROOF — Registry of Proofs</title>
+<link rel="icon" href="proof_logo.png" />
+<link rel="stylesheet" href="ai-agent.css" />
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Segoe UI', system-ui, sans-serif; background: radial-gradient(ellipse at top, #1F0F2E 0%, #0A0E27 50%, #060920 100%); color: #E0E6FF; line-height: 1.6; padding-top: 80px; padding-bottom: 60px; }
+.container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+header { position: fixed; top: 0; left: 0; width: 100%; background: rgba(10,14,39,0.92); backdrop-filter: blur(12px); z-index: 100; border-bottom: 1px solid rgba(181,123,255,0.25); padding: 10px 0; }
+.header-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+.logo { display: flex; align-items: center; gap: 8px; }
+.logo img { height: 36px; width: auto; border-radius: 50%; box-shadow: 0 0 15px rgba(181,123,255,0.5); }
+.logo-text { font-size: 20px; font-weight: 700; color: #fff; }
+nav { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+nav a { color: #8A94C8; text-decoration: none; font-size: 12px; font-weight: 500; transition: 0.3s; }
+nav a:hover { color: #B57BFF; }
+nav a.active { color: #B57BFF; border-bottom: 2px solid #B57BFF; }
+.btn-primary { background: linear-gradient(135deg, #B57BFF 0%, #D4A8FF 100%); color: #fff; padding: 8px 18px; border-radius: 30px; font-weight: 700; text-decoration: none; font-size: 13px; box-shadow: 0 4px 15px rgba(181,123,255,0.4); }
+section { padding: 30px 0; }
+.section-header { text-align: center; margin-bottom: 30px; }
+.section-tag { display: inline-block; background: rgba(181,123,255,0.12); color: #B57BFF; padding: 4px 16px; border-radius: 20px; font-size: 12px; font-weight: 600; text-transform: uppercase; border: 1px solid rgba(181,123,255,0.2); }
+.section-header h1 { font-size: 38px; font-weight: 700; margin: 8px 0; }
+.section-header h1 .highlight { color: #B57BFF; }
+.section-header p { color: #8A94C8; max-width: 700px; margin: 0 auto; }
+.cta-submit { max-width: 700px; margin: 30px auto; background: linear-gradient(160deg, rgba(181,123,255,0.15), rgba(212,168,255,0.05)); border: 2px solid rgba(181,123,255,0.5); border-radius: 20px; padding: 28px; text-align: center; box-shadow: 0 20px 60px rgba(181,123,255,0.3); }
+.cta-submit h3 { color: #fff; font-size: 22px; margin-bottom: 10px; }
+.cta-submit h3 .highlight { color: #B57BFF; }
+.cta-submit p { color: #8A94C8; font-size: 14px; margin-bottom: 18px; }
+.cta-submit a { display: inline-block; background: linear-gradient(135deg, #B57BFF, #D4A8FF); color: #fff; padding: 12px 30px; border-radius: 30px; font-weight: 700; font-size: 15px; text-decoration: none; box-shadow: 0 8px 25px rgba(181,123,255,0.5); transition: 0.3s; }
+.cta-submit a:hover { transform: translateY(-3px); box-shadow: 0 12px 35px rgba(181,123,255,0.8); }
+.stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 700px; margin: 30px auto; }
+.stat-box { background: linear-gradient(160deg, rgba(26,30,65,0.6), rgba(31,15,46,0.6)); border: 1px solid rgba(181,123,255,0.3); border-radius: 16px; padding: 20px 16px; text-align: center; }
+.stat-box .stat-label { font-size: 12px; color: #8A94C8; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+.stat-box .stat-value { font-size: 22px; font-weight: 700; color: #B57BFF; text-shadow: 0 0 15px rgba(181,123,255,0.5); }
+.table-wrap { max-width: 1100px; margin: 30px auto; overflow-x: auto; border-radius: 16px; border: 1px solid rgba(181,123,255,0.2); background: rgba(26,30,65,0.4); }
+table { width: 100%; border-collapse: collapse; }
+thead { background: rgba(181,123,255,0.15); }
+th { padding: 14px 16px; text-align: left; font-size: 12px; color: #B57BFF; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700; }
+td { padding: 14px 16px; font-size: 13px; color: #E0E6FF; border-top: 1px solid rgba(181,123,255,0.1); }
+td.mono { font-family: 'Courier New', monospace; font-size: 11px; color: #D4A8FF; word-break: break-all; }
+td.mono a { color: #D4A8FF; text-decoration: none; }
+td.mono a:hover { text-decoration: underline; }
+.badge { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; text-transform: uppercase; }
+.badge.pending { background: rgba(255,165,0,0.15); color: #FFA500; }
+.badge.passed { background: rgba(46,204,64,0.15); color: #2ECC40; }
+.badge.failed { background: rgba(229,72,106,0.15); color: #E5486A; }
+.badge.level1 { background: rgba(46,204,64,0.15); color: #2ECC40; }
+.badge.level2 { background: rgba(255,165,0,0.15); color: #FFA500; }
+.badge.level3 { background: rgba(229,72,106,0.15); color: #E5486A; }
+.empty-state { text-align: center; padding: 50px 20px; color: #5A649A; }
+.empty-state .empty-icon { font-size: 60px; margin-bottom: 16px; opacity: 0.5; }
+.empty-state h3 { color: #8A94C8; font-size: 18px; margin-bottom: 8px; }
+.empty-state p { font-size: 14px; }
+.counter-box { text-align: center; padding: 16px; background: rgba(181,123,255,0.05); border-radius: 12px; margin: 20px 0; font-size: 14px; color: #8A94C8; font-family: 'Courier New', monospace; }
+.counter-box .counter-visitors { color: #B57BFF; font-weight: 600; }
+.counter-box .counter-clients { color: #D4A8FF; font-weight: 600; }
+.back-link { display: inline-block; margin-top: 20px; color: #B57BFF; text-decoration: none; font-weight: 500; }
+footer { background: linear-gradient(180deg, #060920, #030510); padding: 20px 0; text-align: center; border-top: 1px solid rgba(181,123,255,0.2); margin-top: 40px; }
+footer p { color: #3A406A; font-size: 13px; }
+@media (max-width: 768px) {
+  .section-header h1 { font-size: 26px; }
+  .stats-row { grid-template-columns: 1fr; }
+  th, td { padding: 10px 12px; font-size: 12px; }
+  td.mono { font-size: 10px; }
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="container header-inner">
+    <div class="logo"><img src="proof_logo.png" alt="€PROOF" /><span class="logo-text">PROOF €PROOF</span></div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="registry.html" class="active">Registry</a>
+      <a href="fintech1.html">Use Cases</a>
+      <a href="fintech2.html">Flow</a>
+      <a href="ecosystem.html">Ecosystem</a>
+    </nav>
+    <a href="buy.html" class="btn-primary">Buy €PROOF</a>
+  </div>
+</header>
+
+<section>
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">📜 On-Chain Registry</span>
+      <h1>Registry of <span class="highlight">Proofs</span></h1>
+      <p>Every audited token gets a €PROOF certificate. Score, date, contract — all recorded on-chain. Anyone can verify.</p>
+    </div>
+
+    <div class="cta-submit">
+      <h3>🔍 Want your token <span class="highlight">audited</span>?</h3>
+      <p>Submit your Solana token for audit. Pay €AUDT → get €PROOF certificate in 24-48h.</p>
+      <a href="https://aviabank.github.io/audt/audit.html" target="_blank">Submit Token for Audit →</a>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-box">
+        <div class="stat-label">Total Proofs</div>
+        <div class="stat-value">0</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">Level 3 (Deep)</div>
+        <div class="stat-value">0</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">Avg Score</div>
+        <div class="stat-value">—</div>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Contract</th>
+            <th>Date</th>
+            <th>Level</th>
+            <th>Score</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="registryTable">
+          <tr>
+            <td colspan="6" class="empty-state">
+              <div class="empty-icon">📜</div>
+              <h3>No proofs issued yet</h3>
+              <p>Be the first — submit your token for audit via €AUDT.</p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="max-width:800px;margin:30px auto;background:linear-gradient(160deg,rgba(26,30,65,0.5),rgba(31,15,46,0.5));border:1px solid rgba(181,123,255,0.15);border-radius:16px;padding:22px;">
+      <h3 style="color:#B57BFF;font-size:16px;margin-bottom:12px;">📖 How the registry works</h3>
+      <p style="color:#8A94C8;font-size:14px;margin-bottom:8px;"><strong style="color:#fff;">1.</strong> Project submits token for audit via €AUDT</p>
+      <p style="color:#8A94C8;font-size:14px;margin-bottom:8px;"><strong style="color:#fff;">2.</strong> Scanner checks Mint/Freeze/LP/Honeypot</p>
+      <p style="color:#8A94C8;font-size:14px;margin-bottom:8px;"><strong style="color:#fff;">3.</strong> Score 0-100 calculated</p>
+      <p style="color:#8A94C8;font-size:14px;margin-bottom:8px;"><strong style="color:#fff;">4.</strong> €PROOF certificate issued on-chain</p>
+      <p style="color:#8A94C8;font-size:14px;"><strong style="color:#fff;">5.</strong> Record appears in this registry</p>
+    </div>
+
+    <div class="counter-box">
+      ✅ Visitors: <span class="counter-visitors">2,030</span>
+      &nbsp;·&nbsp;
+      🤝 Clients: <span class="counter-clients">0</span>
+    </div>
+
+    <div style="text-align:center;">
+      <a href="index.html" class="back-link">← Back to €PROOF Home</a>
+    </div>
+  </div>
+</section>
+
+<footer><div class="container"><p>© 2026 AviaTrust. Built on Solana. | €PROOF Registry</p></div></footer>
+
+<script>
+// Placeholder — когда появятся первые аудиты, обновляй эту таблицу вручную
+// Формат строки:
+// <tr>
+//   <td>1</td>
+//   <td class="mono"><a href="https://solscan.io/token/ADDRESS" target="_blank">ADDRESS</a></td>
+//   <td>2026-10-12</td>
+//   <td><span class="badge level3">Level 3</span></td>
+//   <td>15</td>
+//   <td><span class="badge passed">Passed</span></td>
+// </tr>
+
+document.querySelectorAll('.ticker-track').forEach(track => {
+  const content = track.innerHTML;
+  track.innerHTML = content + content + content;
+});
+</script>
+<script src="counter.js"></script>
+<script src="ai-agent.js"></script>
+</body>
+</html>
